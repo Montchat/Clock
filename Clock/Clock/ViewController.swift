@@ -17,30 +17,81 @@ class ViewController: UIViewController {
     var currentTimeTimer: NSTimer?
     var countDownTimer: NSTimer?
     
+    var count: Double = 0
+    
     @IBAction func pressedStart(sender: AnyObject) {
+        
+        guard countDownTimer == nil else { return }
+        
+        guard let secondsText = countdownTextField.text else { return }
+         count = Double(secondsText) ?? 0
+        
+        if count > 0 {
+            countDownTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateCountDown", userInfo: nil, repeats: true)
+        }
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        countdownTextField.delegate = self
+        updateCurrentTimer()
+        currentTimeTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "updateCurrentTimer", userInfo: nil, repeats: true)
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
     }
     
     func updateCurrentTimer() {
         
+        let date = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        currentTimeLabel.text = formatter.stringFromDate(date)
+        
     }
     
     func updateCountDown() {
+
+        count--
+        let hours = Int(floor(count / 3600))
+        let minutes = Int(floor((count % 3600) / 60))
+        let seconds = Int(count % 60)
         
+        let hourString = hours < 10 ? "0\(hours)" : " \(hours)"
+        let minuteString = minutes < 10 ? "0\(minutes)" : " \(minutes)"
+        let secondString = seconds < 10 ? "0\(seonds)" " \(seconds)"
         
+        countdownLabel.text = "\(hours):\(minutes):\(seconds)"
+        
+        if count <= 0 {
+            count++
+            updateCountDown()
+            countDownTimer?.invalidate()
+            countDownTimer = nil
+            
+        }
         
     }
 
+}
 
+extension ViewController : UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+        
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        textField.resignFirstResponder()
+
+    }
+    
+    
+    
 }
 
