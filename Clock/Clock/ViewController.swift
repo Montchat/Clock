@@ -31,6 +31,18 @@ class ViewController: UIViewController {
         }
         
     }
+    @IBAction func pressedClear(sender: AnyObject) {
+        countDownTimer?.invalidate()
+        countDownTimer = nil
+        
+        countdownLabel.text = "00:00:00"
+        
+    }
+    
+    @IBAction func pressedLap(sender: AnyObject) {
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
