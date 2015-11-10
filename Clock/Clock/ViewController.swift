@@ -63,9 +63,9 @@ class ViewController: UIViewController {
         
         let hourString = hours < 10 ? "0\(hours)" : " \(hours)"
         let minuteString = minutes < 10 ? "0\(minutes)" : " \(minutes)"
-        let secondString = seconds < 10 ? "0\(seonds)" " \(seconds)"
+        let secondString = seconds < 10 ? "0\(seconds)" : "\(seconds)"
         
-        countdownLabel.text = "\(hours):\(minutes):\(seconds)"
+        countdownLabel.text = "\(hourString):\(minuteString):\(secondString)"
         
         if count <= 0 {
             count++
